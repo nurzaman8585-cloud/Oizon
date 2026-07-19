@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OIZON — ноутбуки, принтеры и гаджеты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #3F3F46;
+    --ink-strong: #3A3A3E;
+    --accent: #FF5A1F;
+    --accent-dark: #E14A12;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F7F8;
+    --border: #E4E4E7;
+    --text-muted: #71717A;
+    --success: #16A34A;
+    --success-bg: #ECFDF3;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink-strong);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  img, svg { display: block; }
+  button { font-family: inherit; cursor: pointer; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== Top utility bar ===== */
+  .topbar {
+    background: var(--ink-strong);
+    color: #E4E4E7;
+    font-size: 13px;
+  }
+  .topbar .container {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 36px;
+  }
+  .topbar-links { display: flex; gap: 20px; }
+  .topbar-links a:hover { color: #fff; }
+
+  /* ===== Header ===== */
+  header.main {
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--bg); z-index: 50;
+  }
+  .header-inner {
+    display: flex; align-items: center; gap: 28px;
+    height: 76px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .logo-word {
+    font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 24px;
+    letter-spacing: -0.5px; color: var(--ink);
+  }
+  .logo-word span { color: var(--accent); }
+
+  .search-bar { flex: 1; position: relative; max-width: 640px; }
+  .search-bar input {
+    width: 100%; height: 46px; border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 0 48px 0 18px; font-size: 15px;
+    font-family: inherit; outline: none; transition: border-color 150ms ease;
+  }
+  .search-bar input:focus { border-color: var(--ink); }
+  .search-bar button {
+    position: absolute; right: 4px; top: 4px; bottom: 4px; width: 42px;
+    background: var(--ink); border: none; border-radius: 8px; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .search-bar button:hover { background: var(--ink-strong); }
+
+  .header-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+  .action-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 12px; color: var(--ink); min-width: 48px;
+  }
+  .action-item .icon-circle {
+    width: 22px; height: 22px; position: relative;
+  }
+  .cart-count {
+    position: absolute; top: -6px; right: -8px; background: var(--accent);
+    color: #fff; font-size: 10px; font-weight: 700; width: 16px; height: 16px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ===== Category nav ===== */
+  .cat-nav {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .cat-nav .container {
+    display: flex; align-items: center; gap: 8px; height: 52px;
+    overflow-x: auto;
+  }
+  .cat-pill {
+    display: flex; align-items: center; gap: 7px; white-space: nowrap;
+    font-size: 14px; font-weight: 500; color: var(--ink); padding: 8px 14px;
+    border-radius: 8px; transition: background 150ms ease;
+  }
+  .cat-pill:hover { background: var(--bg-soft); }
+  .cat-pill.all { background: var(--ink-strong); color: #fff; font-weight: 600; }
+  .cat-pill.all:hover { background: var(--ink); }
+
+  /* ===== Hero ===== */
+  .hero {
+    background: var(--ink-strong);
+    padding: 48px 0;
+    margin-bottom: 40px;
+  }
+  .hero-inner {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,90,31,0.15); color: #FF8B5C; font-size: 13px; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif; font-size: 40px; line-height: 1.15;
+    font-weight: 700; color: #fff; margin-bottom: 16px; letter-spacing: -0.5px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 16px; color: #A1A1AA; max-width: 440px; margin-bottom: 28px; line-height: 1.6;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff; border: none; font-weight: 700;
+    font-size: 15px; padding: 14px 26px; border-radius: 10px; transition: background 150ms ease;
+  }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .hero-visual {
+    background: #2A2A2E; border-radius: 16px; height: 260px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ===== Section heading ===== */
+  .section { padding: 0 0 48px; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .section-head h2 {
+    font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 600;
+    color: var(--ink-strong); letter-spacing: -0.3px;
+  }
+  .section-head a { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .section-head a:hover { color: var(--accent); }
+
+  /* ===== Category tiles ===== */
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+  }
+  .cat-tile {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 14px; text-align: center; transition: border-color 150ms ease, transform 150ms ease;
+    display: block;
+  }
+  .cat-tile:hover { border-color: var(--ink); transform: translateY(-2px); }
+  .cat-tile .tile-icon {
+    width: 44px; height: 44px; margin: 0 auto 12px; border-radius: 10px;
+    background: var(--bg-soft); display: flex; align-items: center; justify-content: center;
+  }
+  .cat-tile .tile-name { font-size: 13.5px; font-weight: 600; color: var(--ink-strong); }
+  .cat-tile.soon { opacity: 0.55; }
+  .cat-tile .soon-badge {
+    display: inline-block; margin-top: 6px; font-size: 10.5px; font-weight: 700;
+    color: var(--text-muted); background: var(--bg-soft); padding: 2px 8px; border-radius: 999px;
+  }
+
+  /* ===== Product grid ===== */
+  .product-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .product-card {
+    border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    display: flex; flex-direction: column; transition: box-shadow 150ms ease, border-color 150ms ease;
+  }
+  .product-card:hover { border-color: var(--ink); }
+  .product-thumb {
+    background: var(--bg-soft); aspect-ratio: 1 / 0.9;
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .discount-badge {
+    position: absolute; top: 10px; left: 10px; background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 6px;
+  }
+  .fav-btn {
+    position: absolute; top: 10px; right: 10px; width: 30px; height: 30px;
+    background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border);
+  }
+  .product-info { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .product-title {
+    font-size: 13.5px; font-weight: 600; line-height: 1.4; color: var(--ink-strong);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    min-height: 37px;
+  }
+  .rating { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--text-muted); }
+  .rating .stars { color: #F5A524; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+  .price-now { font-size: 17px; font-weight: 800; color: var(--ink-strong); }
+  .price-old { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+  .add-btn {
+    margin-top: 10px; width: 100%; height: 38px; border: 1.5px solid var(--ink-strong);
+    background: transparent; border-radius: 8px; font-weight: 700; font-size: 13.5px;
+    color: var(--ink-strong); transition: background 150ms ease, color 150ms ease;
+  }
+  .add-btn:hover { background: var(--ink-strong); color: #fff; }
+
+  /* ===== Trust bar ===== */
+  .trust-bar {
+    background: var(--bg-soft); padding: 32px 0; margin-bottom: 48px;
+  }
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .trust-item { display: flex; align-items: center; gap: 12px; }
+  .trust-item .t-icon {
+    width: 42px; height: 42px; border-radius: 10px; background: #fff; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);
+  }
+  .trust-item .t-title { font-size: 14px; font-weight: 700; color: var(--ink-strong); }
+  .trust-item .t-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--ink-strong); color: #D4D4D8; padding: 48px 0 24px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px;
+    padding-bottom: 32px; border-bottom: 1px solid #52525B;
+  }
+  .footer-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+  .footer-col ul li { margin-bottom: 10px; font-size: 13.5px; }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 20px; font-size: 13px; color: #A1A1AA;
+  }
+
+  @media (max-width: 1024px) {
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-links">
+      <a href="#">Доставка по всем регионам</a>
+    </div>
+    <div class="topbar-links">
+      <a href="#">Поддержка</a>
+    </div>
+  </div>
+</div>
+
+<header class="main">
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <svg width="34" height="34" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#3F3F46" stroke-width="20"/>
+        <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+      </svg>
+      <span class="logo-word">OI<span>ZON</span></span>
+    </a>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Ищите ноутбуки, принтеры, гаджеты и картриджи">
+      <button aria-label="Найти">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <a href="#" class="action-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        Избранное
+      </a>
+      <a href="cart.html" class="action-item">
+        <div class="icon-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.3" fill="#3F3F46"/><circle cx="17" cy="20" r="1.3" fill="#3F3F46"/></svg>
+          <span class="cart-count">3</span>
+        </div>
+        Корзина
+      </a>
+      <a href="#" class="action-item" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="#3F3F46" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="#" class="action-item" aria-label="WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M3.5 20.5 4.7 16A8 8 0 1 1 8 19.3z"/><path d="M8.5 9.3c0 3.5 2.7 6.2 6.2 6.2 0.6 0 0.9-0.3 0.9-0.9v-1.1c0-0.4-0.3-0.7-0.7-0.8l-1.5-0.3c-0.3-0.1-0.6 0-0.8 0.2l-0.4 0.4c-1.1-0.5-1.9-1.3-2.4-2.4l0.4-0.4c0.2-0.2 0.3-0.5 0.2-0.8L10.1 8c-0.1-0.4-0.4-0.7-0.8-0.7H8.2c-0.6 0-0.9 0.4-0.9 0.9 0 0.4 0.1 0.7 0.2 1.1z" fill="#3F3F46" stroke="none"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="cat-nav">
+  <div class="container">
+    <a href="#" class="cat-pill all">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      Все категории
+    </a>
+    <a href="catalog.html" class="cat-pill">Ноутбуки</a>
+    <a href="catalog-printer.html" class="cat-pill">Принтеры</a>
+    <a href="catalog-cartridge.html" class="cat-pill">Расходники для принтеров</a>
+    <a href="catalog-gadget.html" class="cat-pill">Гаджеты</a>
+    <a href="catalog-accessory.html" class="cat-pill">Аксессуары</a>
+    <a href="catalog-sale.html" class="cat-pill">Акции</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="hero-eyebrow">Скидки недели</span>
+      <h1>Техника, которая работает <span>на вас</span></h1>
+      <p>Ноутбуки, принтеры и гаджеты с официальной гарантией. Расходники для принтеров — всегда в наличии, доставка на следующий день.</p>
+      <a href="#" class="btn-primary">
+        Смотреть каталог
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="hero-visual">
+      <svg width="180" height="180" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#6B6B70" stroke-width="14"/>
+        <rect x="132" y="132" width="30" height="30" rx="8" fill="#FF5A1F"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Категории</h2>
+      <a href="catalog.html">Весь каталог →</a>
+    </div>
+    <div class="cat-grid">
+      <a href="catalog.html" class="cat-tile">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div>
+        <div class="tile-name">Ноутбуки</div>
+      </a>
+      <a href="catalog-printer.html" class="cat-tile">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg></div>
+        <div class="tile-name">Принтеры</div>
+      </a>
+      <a href="catalog-cartridge.html" class="cat-tile">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M9 3h6l1 4h-8z"/><rect x="7" y="7" width="10" height="12" rx="1.5"/></svg></div>
+        <div class="tile-name">Расходники</div>
+      </a>
+      <a href="catalog-gadget.html" class="cat-tile">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div>
+        <div class="tile-name">Гаджеты</div>
+      </a>
+      <a href="catalog-accessory.html" class="cat-tile">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+        <div class="tile-name">Аксессуары</div>
+      </a>
+      <div class="cat-tile soon">
+        <div class="tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div>
+        <div class="tile-name">Быт. техника</div>
+        <div class="soon-badge">Скоро</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Хиты продаж</h2>
+      <a href="#">Все товары →</a>
+    </div>
+    <div class="product-grid">
+
+      <div class="product-card" onclick="window.location='product.html'" style="cursor:pointer;">
+        <div class="product-thumb">
+          <span class="discount-badge">-15%</span>
+          <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+          <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+        </div>
+        <div class="product-info">
+          <div class="product-title">Ноутбук ProBook 15" Ryzen 5, 16 ГБ / 512 ГБ SSD</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.8 (212)</div>
+          <div class="price-row"><span class="price-now">54 990 с</span><span class="price-old">64 700 с</span></div>
+          <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="window.location='product-printer.html'" style="cursor:pointer;">
+        <div class="product-thumb">
+          <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+          <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+        </div>
+        <div class="product-info">
+          <div class="product-title">МФУ лазерное LaserJet 420, Wi-Fi, дуплекс</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.6 (98)</div>
+          <div class="price-row"><span class="price-now">18 450 с</span></div>
+          <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="window.location='product-gadget.html'" style="cursor:pointer;">
+        <div class="product-thumb">
+          <span class="discount-badge">-10%</span>
+          <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+          <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        </div>
+        <div class="product-info">
+          <div class="product-title">Смарт-часы FitTrack 2, AMOLED, GPS</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.7 (340)</div>
+          <div class="price-row"><span class="price-now">5 390 с</span><span class="price-old">5 990 с</span></div>
+          <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="window.location='product-cartridge.html'" style="cursor:pointer;">
+        <div class="product-thumb">
+          <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+          <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><path d="M9 3h6l1 4h-8z"/><rect x="7" y="7" width="10" height="12" rx="1.5"/></svg>
+        </div>
+        <div class="product-info">
+          <div class="product-title">Картридж лазерный CF283A, чёрный, оригинал</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.9 (521)</div>
+          <div class="price-row"><span class="price-now">2 190 с</span></div>
+          <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</main>
+
+<section class="trust-bar">
+  <div class="container trust-grid">
+    <div class="trust-item">
+      <div class="t-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div>
+      <div><div class="t-title">Быстрая доставка</div><div class="t-sub">Доставка по всему Кыргызстану</div></div>
+    </div>
+    <div class="trust-item">
+      <div class="t-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5z"/></svg></div>
+      <div><div class="t-title">Официальная гарантия</div><div class="t-sub">На всю технику от 12 месяцев</div></div>
+    </div>
+    <div class="trust-item">
+      <div class="t-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="5.5"/><line x1="16" y1="2.5" x2="16" y2="5.5"/></svg></div>
+      <div><div class="t-title">Рассрочка от 3 до 12 месяцев</div><div class="t-sub">Оформляется прямо при заказе</div></div>
+    </div>
+    <div class="trust-item">
+      <div class="t-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+      <div><div class="t-title">Безопасная оплата</div><div class="t-sub">Картой онлайн или при получении</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="#" class="logo" style="margin-bottom:14px;">
+          <svg width="28" height="28" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#D4D4D8" stroke-width="20"/>
+            <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+          </svg>
+          <span class="logo-word" style="color:#fff;">OI<span>ZON</span></span>
+        </a>
+        <p style="font-size:13.5px; line-height:1.6; max-width:280px;">Маркетплейс техники и электроники в Кыргызстане. Ноутбуки, принтеры, гаджеты и всё для них — в одном месте.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Покупателям</h4>
+        <ul>
+          <li><a href="#">Как сделать заказ</a></li>
+          <li><a href="#">Доставка и оплата</a></li>
+          <li><a href="#">Гарантия</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Скупка</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Связаться</h4>
+        <ul>
+          <li><a href="#">+996 700 000 000</a></li>
+          <li><a href="#">support@oizon.kg</a></li>
+          <li><a href="#">г. Бишкек, ул. Примерная 1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OIZON. Все права защищены.</span>
+      <span>Кыргызстан</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Принтеры — каталог | OIZON</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #3F3F46;
+    --ink-strong: #3A3A3E;
+    --accent: #FF5A1F;
+    --accent-dark: #E14A12;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F7F8;
+    --border: #E4E4E7;
+    --text-muted: #71717A;
+    --success: #16A34A;
+    --success-bg: #ECFDF3;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Manrope', sans-serif; color: var(--ink-strong); background: var(--bg); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  img, svg { display: block; }
+  button { font-family: inherit; cursor: pointer; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* Shared header */
+  .topbar { background: var(--ink-strong); color: #E4E4E7; font-size: 13px; }
+  .topbar .container { display: flex; align-items: center; justify-content: space-between; height: 36px; }
+  .topbar-links a:hover { color: #fff; }
+  header.main { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 50; }
+  .header-inner { display: flex; align-items: center; gap: 28px; height: 76px; }
+  .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .logo-word { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; color: var(--ink); }
+  .logo-word span { color: var(--accent); }
+  .search-bar { flex: 1; position: relative; max-width: 640px; }
+  .search-bar input { width: 100%; height: 46px; border: 1.5px solid var(--border); border-radius: 10px; padding: 0 48px 0 18px; font-size: 15px; font-family: inherit; outline: none; }
+  .search-bar input:focus { border-color: var(--ink); }
+  .search-bar button { position: absolute; right: 4px; top: 4px; bottom: 4px; width: 42px; background: var(--ink); border: none; border-radius: 8px; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .search-bar button:hover { background: var(--ink-strong); }
+  .header-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+  .action-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: var(--ink); min-width: 48px; }
+  .icon-circle { width: 22px; height: 22px; position: relative; }
+  .cart-count { position: absolute; top: -6px; right: -8px; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .cat-nav { border-bottom: 1px solid var(--border); background: var(--bg); }
+  .cat-nav .container { display: flex; align-items: center; gap: 8px; height: 52px; overflow-x: auto; }
+  .cat-pill { display: flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 14px; font-weight: 500; color: var(--ink); padding: 8px 14px; border-radius: 8px; }
+  .cat-pill:hover { background: var(--bg-soft); }
+  .cat-pill.active { background: var(--ink-strong); color: #fff; font-weight: 600; }
+
+  /* Breadcrumbs + page head */
+  .breadcrumbs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); padding: 18px 0 12px; }
+  .breadcrumbs a:hover { color: var(--ink-strong); }
+  .breadcrumbs .sep { color: #C4C4C9; }
+  .page-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
+  .page-head h1 { font-family: 'Unbounded', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.4px; }
+  .page-head .count { font-size: 14px; color: var(--text-muted); }
+
+  /* Layout */
+  .catalog-layout { display: grid; grid-template-columns: 260px 1fr; gap: 28px; padding-bottom: 56px; }
+
+  /* Filters sidebar */
+  .filters { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; height: fit-content; position: sticky; top: 92px; }
+  .filter-group { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .filter-group:first-child { padding-top: 0; }
+  .filter-group:last-child { border-bottom: none; padding-bottom: 0; }
+  .filter-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .price-inputs { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .price-inputs input {
+    width: 100%; height: 36px; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 0 10px; font-size: 13.5px; font-family: inherit; outline: none;
+  }
+  .price-inputs input:focus { border-color: var(--ink); }
+  .price-inputs span { color: var(--text-muted); font-size: 13px; }
+  .price-slider { height: 4px; background: var(--border); border-radius: 999px; position: relative; margin: 14px 2px 4px; }
+  .price-slider .fill { position: absolute; left: 15%; right: 30%; top: 0; bottom: 0; background: var(--accent); border-radius: 999px; }
+  .price-slider .handle { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid var(--accent); position: absolute; top: 50%; transform: translate(-50%,-50%); }
+
+  .check-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; font-size: 13.5px; cursor: pointer; }
+  .check-row .cr-left { display: flex; align-items: center; gap: 9px; }
+  .check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--ink-strong); }
+  .check-row .cr-count { color: var(--text-muted); font-size: 12.5px; }
+
+  .btn-apply { width: 100%; background: var(--ink-strong); color: #fff; border: none; font-weight: 700; font-size: 14px; padding: 12px; border-radius: 9px; margin-top: 18px; }
+  .btn-apply:hover { background: var(--ink); }
+  .btn-reset { width: 100%; background: transparent; color: var(--text-muted); border: none; font-size: 13px; font-weight: 600; padding: 8px; text-align: center; }
+  .btn-reset:hover { color: var(--ink-strong); }
+
+  /* Active filter chips */
+  .active-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .chip {
+    display: flex; align-items: center; gap: 6px; background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 10px 6px 12px; font-size: 13px; font-weight: 500;
+  }
+  .chip button { background: none; border: none; display: flex; color: var(--text-muted); }
+  .chip button:hover { color: var(--ink-strong); }
+
+  /* Toolbar */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .sort-select {
+    display: flex; align-items: center; gap: 8px; font-size: 13.5px; border: 1.5px solid var(--border);
+    border-radius: 8px; padding: 9px 14px; font-weight: 600; color: var(--ink-strong);
+  }
+  .view-toggle { display: flex; gap: 4px; border: 1.5px solid var(--border); border-radius: 8px; padding: 3px; }
+  .view-toggle button { width: 30px; height: 28px; border: none; background: none; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .view-toggle button.active { background: var(--ink-strong); }
+  .view-toggle button.active svg { stroke: #fff; }
+  .toolbar-right { display: flex; gap: 10px; align-items: center; }
+
+  /* Product grid (shared with home) */
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .product-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; }
+  .product-card:hover { border-color: var(--ink); }
+  .product-thumb { background: var(--bg-soft); aspect-ratio: 1/0.9; display: flex; align-items: center; justify-content: center; position: relative; }
+  .discount-badge { position: absolute; top: 10px; left: 10px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 6px; }
+  .fav-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+  .product-info { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .product-title { font-size: 13.5px; font-weight: 600; line-height: 1.4; color: var(--ink-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 37px; }
+  .rating { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--text-muted); }
+  .rating .stars { color: #F5A524; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+  .price-now { font-size: 17px; font-weight: 800; color: var(--ink-strong); }
+  .price-old { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+  .add-btn { margin-top: 10px; width: 100%; height: 38px; border: 1.5px solid var(--ink-strong); background: transparent; border-radius: 8px; font-weight: 700; font-size: 13.5px; color: var(--ink-strong); }
+  .add-btn:hover { background: var(--ink-strong); color: #fff; }
+
+  /* Pagination */
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 36px; }
+  .page-btn { width: 38px; height: 38px; border: 1.5px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13.5px; font-weight: 600; }
+  .page-btn.active { background: var(--ink-strong); color: #fff; border-color: var(--ink-strong); }
+  .page-btn:hover:not(.active) { border-color: var(--ink); }
+
+  footer { background: var(--ink-strong); color: #D4D4D8; padding: 48px 0 24px; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; padding-bottom: 32px; border-bottom: 1px solid #52525B; }
+  .footer-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+  .footer-col ul li { margin-bottom: 10px; font-size: 13.5px; }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 20px; font-size: 13px; color: #A1A1AA; }
+
+  @media (max-width: 980px) {
+    .catalog-layout { grid-template-columns: 1fr; }
+    .filters { position: static; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-links"><a href="#">Доставка по всем регионам</a></div>
+    <div class="topbar-links"><a href="#">Поддержка</a></div>
+  </div>
+</div>
+
+<header class="main">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <svg width="34" height="34" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#3F3F46" stroke-width="20"/>
+        <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+      </svg>
+      <span class="logo-word">OI<span>ZON</span></span>
+    </a>
+    <div class="search-bar">
+      <input type="text" placeholder="Ищите ноутбуки, принтеры, гаджеты и картриджи">
+      <button aria-label="Найти">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+    <div class="header-actions">
+      <a href="#" class="action-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        Избранное
+      </a>
+      <a href="cart.html" class="action-item">
+        <div class="icon-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.3" fill="#3F3F46"/><circle cx="17" cy="20" r="1.3" fill="#3F3F46"/></svg>
+          <span class="cart-count">3</span>
+        </div>
+        Корзина
+      </a>
+      <a href="#" class="action-item" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="#3F3F46" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="#" class="action-item" aria-label="WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M3.5 20.5 4.7 16A8 8 0 1 1 8 19.3z"/><path d="M8.5 9.3c0 3.5 2.7 6.2 6.2 6.2 0.6 0 0.9-0.3 0.9-0.9v-1.1c0-0.4-0.3-0.7-0.7-0.8l-1.5-0.3c-0.3-0.1-0.6 0-0.8 0.2l-0.4 0.4c-1.1-0.5-1.9-1.3-2.4-2.4l0.4-0.4c0.2-0.2 0.3-0.5 0.2-0.8L10.1 8c-0.1-0.4-0.4-0.7-0.8-0.7H8.2c-0.6 0-0.9 0.4-0.9 0.9 0 0.4 0.1 0.7 0.2 1.1z" fill="#3F3F46" stroke="none"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="cat-nav">
+  <div class="container">
+    <a href="index.html" class="cat-pill">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      Все категории
+    </a>
+    <a href="catalog.html" class="cat-pill">Ноутбуки</a>
+    <a href="catalog-printer.html" class="cat-pill active">Принтеры</a>
+    <a href="catalog-cartridge.html" class="cat-pill">Расходники для принтеров</a>
+    <a href="catalog-gadget.html" class="cat-pill">Гаджеты</a>
+    <a href="catalog-accessory.html" class="cat-pill">Аксессуары</a>
+    <a href="catalog-sale.html" class="cat-pill">Акции</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <div class="breadcrumbs">
+    <a href="index.html">Главная</a><span class="sep">/</span>
+    <span>Принтеры</span>
+  </div>
+
+  <div class="page-head">
+    <h1>Принтеры</h1>
+    <span class="count">34 товара</span>
+  </div>
+
+  <div class="catalog-layout">
+
+    <!-- Filters -->
+    <aside class="filters">
+      <div class="filter-group">
+        <div class="filter-title">Цена, сом</div>
+        <div class="price-inputs">
+          <input type="text" value="5 000">
+          <span>—</span>
+          <input type="text" value="25 000">
+        </div>
+        <div class="price-slider">
+          <div class="fill"></div>
+          <div class="handle" style="left:15%;"></div>
+          <div class="handle" style="left:70%;"></div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Бренд</div>
+        <label class="check-row"><span class="cr-left"><input type="checkbox" checked> HP</span><span class="cr-count">14</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Canon</span><span class="cr-count">9</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Epson</span><span class="cr-count">6</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Kyocera</span><span class="cr-count">3</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Xerox</span><span class="cr-count">2</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Тип устройства</div>
+        <label class="check-row"><span class="cr-left"><input type="checkbox" checked> МФУ (3 в 1)</span><span class="cr-count">21</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Принтер</span><span class="cr-count">13</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Тип печати</div>
+        <label class="check-row"><span class="cr-left"><input type="checkbox" checked> Лазерная</span><span class="cr-count">24</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Струйная</span><span class="cr-count">10</span></label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Подключение</div>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Wi-Fi</span><span class="cr-count">19</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> USB</span><span class="cr-count">34</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Ethernet</span><span class="cr-count">11</span></label>
+      </div>
+
+      <div class="filter-group">
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Только в наличии</span></label>
+        <label class="check-row"><span class="cr-left"><input type="checkbox"> Только со скидкой</span></label>
+      </div>
+
+      <button class="btn-apply">Показать 21 товар</button>
+      <button class="btn-reset">Сбросить фильтры</button>
+    </aside>
+
+    <!-- Results -->
+    <div class="results">
+
+      <div class="active-chips">
+        <span class="chip">HP <button aria-label="Убрать"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button></span>
+        <span class="chip">МФУ (3 в 1) <button aria-label="Убрать"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button></span>
+        <span class="chip">Лазерная <button aria-label="Убрать"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button></span>
+      </div>
+
+      <div class="toolbar">
+        <div class="sort-select">
+          Сначала популярные
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="toolbar-right">
+          <div class="view-toggle">
+            <button class="active" aria-label="Сетка"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+            <button aria-label="Список"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-grid">
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">МФУ лазерное LaserJet 420, Wi-Fi, дуплекс</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.6 (98)</div>
+            <div class="price-row"><span class="price-now">18 450 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Принтер лазерный EcoPrint P210, ч/б</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.5 (52)</div>
+            <div class="price-row"><span class="price-now">9 900 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            <span class="discount-badge">-10%</span>
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">МФУ струйное InkJet Color 300, цветной</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.4 (41)</div>
+            <div class="price-row"><span class="price-now">12 300 с</span><span class="price-old">13 700 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Принтер лазерный цветной ColorLine 500</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.7 (29)</div>
+            <div class="price-row"><span class="price-now">24 500 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            <span class="discount-badge">-7%</span>
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">МФУ лазерное OfficeMax 610, Wi-Fi, дуплекс, факс</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.6 (64)</div>
+            <div class="price-row"><span class="price-now">21 900 с</span><span class="price-old">23 500 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="window.location='product-printer.html'">
+          <div class="product-thumb">
+            
+            <button class="fav-btn" aria-label="В избранное" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Принтер струйный PhotoJet 210, фотопечать</div>
+            <div class="rating"><span class="stars">★★★★★</span> 4.5 (37)</div>
+            <div class="price-row"><span class="price-now">8 200 с</span></div>
+            <button class="add-btn" onclick="event.stopPropagation()">В корзину</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn" aria-label="Назад"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">…</button>
+        <button class="page-btn">8</button>
+        <button class="page-btn" aria-label="Вперёд"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo" style="margin-bottom:14px;">
+          <svg width="28" height="28" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#D4D4D8" stroke-width="20"/>
+            <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+          </svg>
+          <span class="logo-word" style="color:#fff;">OI<span>ZON</span></span>
+        </a>
+        <p style="font-size:13.5px; line-height:1.6; max-width:280px;">Маркетплейс техники и электроники в Кыргызстане. Ноутбуки, принтеры, гаджеты и всё для них — в одном месте.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Покупателям</h4>
+        <ul>
+          <li><a href="#">Как сделать заказ</a></li>
+          <li><a href="#">Доставка и оплата</a></li>
+          <li><a href="#">Гарантия</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Скупка</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Связаться</h4>
+        <ul>
+          <li><a href="#">+996 700 000 000</a></li>
+          <li><a href="#">support@oizon.kg</a></li>
+          <li><a href="#">г. Бишкек, ул. Примерная 1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OIZON. Все права защищены.</span>
+      <span>Кыргызстан</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

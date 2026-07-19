@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МФУ лазерное LaserJet 420, Wi-Fi, дуплекс — OIZON</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #3F3F46;
+    --ink-strong: #3A3A3E;
+    --accent: #FF5A1F;
+    --accent-dark: #E14A12;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F7F8;
+    --border: #E4E4E7;
+    --text-muted: #71717A;
+    --success: #16A34A;
+    --success-bg: #ECFDF3;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink-strong);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  img, svg { display: block; }
+  button { font-family: inherit; cursor: pointer; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== Top bar / header / cat-nav (shared) ===== */
+  .topbar { background: var(--ink-strong); color: #E4E4E7; font-size: 13px; }
+  .topbar .container { display: flex; align-items: center; justify-content: space-between; height: 36px; }
+  .topbar-links { display: flex; gap: 20px; }
+  .topbar-links a:hover { color: #fff; }
+
+  header.main { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 50; }
+  .header-inner { display: flex; align-items: center; gap: 28px; height: 76px; }
+  .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .logo-word { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; color: var(--ink); }
+  .logo-word span { color: var(--accent); }
+
+  .search-bar { flex: 1; position: relative; max-width: 640px; }
+  .search-bar input { width: 100%; height: 46px; border: 1.5px solid var(--border); border-radius: 10px; padding: 0 48px 0 18px; font-size: 15px; font-family: inherit; outline: none; }
+  .search-bar input:focus { border-color: var(--ink); }
+  .search-bar button { position: absolute; right: 4px; top: 4px; bottom: 4px; width: 42px; background: var(--ink); border: none; border-radius: 8px; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .search-bar button:hover { background: var(--ink-strong); }
+
+  .header-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+  .action-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: var(--ink); min-width: 48px; }
+  .action-item .icon-circle { width: 22px; height: 22px; position: relative; }
+  .cart-count { position: absolute; top: -6px; right: -8px; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .cat-nav { border-bottom: 1px solid var(--border); background: var(--bg); }
+  .cat-nav .container { display: flex; align-items: center; gap: 8px; height: 52px; overflow-x: auto; }
+  .cat-pill { display: flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 14px; font-weight: 500; color: var(--ink); padding: 8px 14px; border-radius: 8px; }
+  .cat-pill:hover { background: var(--bg-soft); }
+  .cat-pill.all { background: var(--ink-strong); color: #fff; font-weight: 600; }
+  .cat-pill.all:hover { background: var(--ink); }
+  .cat-pill.active { background: var(--bg-soft); color: var(--ink-strong); font-weight: 700; }
+
+  /* ===== Breadcrumbs ===== */
+  .breadcrumbs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); padding: 18px 0; flex-wrap: wrap; }
+  .breadcrumbs a:hover { color: var(--ink-strong); }
+  .breadcrumbs .sep { color: #C4C4C9; }
+
+  /* ===== Product layout ===== */
+  .product-main {
+    display: grid; grid-template-columns: 280px 1fr 300px; gap: 32px;
+    padding-bottom: 48px;
+  }
+  .product-main > * { min-width: 0; }
+
+  /* Gallery */
+  .gallery-thumbs { display: flex; flex-direction: row; gap: 8px; }
+  .thumb {
+    width: 52px; height: 52px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .thumb.active { border-color: var(--ink-strong); }
+  .gallery-main { display: flex; flex-direction: column; gap: 10px; }
+  .gallery-stage {
+    width: 100%; aspect-ratio: 1/1; background: var(--bg-soft); border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center; position: relative; cursor: zoom-in;
+  }
+  .discount-badge-lg { position: absolute; top: 16px; left: 16px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 7px; }
+  .zoom-hint {
+    position: absolute; bottom: 14px; right: 14px; width: 34px; height: 34px; background: #fff;
+    border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; inset: 0; background: rgba(39,39,42,0.9); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-stage {
+    width: min(640px, 88vw); aspect-ratio: 1/1; background: var(--bg-soft); border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 28px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: none; display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+  /* Info column */
+  .p-title { font-family: 'Unbounded', sans-serif; font-size: 19px; font-weight: 600; line-height: 1.4; letter-spacing: -0.2px; margin-bottom: 10px; word-break: break-word; }
+  .p-meta { display: flex; align-items: center; gap: 16px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px; }
+  .p-meta .rating { display: flex; align-items: center; gap: 5px; color: var(--ink-strong); font-weight: 600; }
+  .p-meta .stars { color: #F5A524; }
+  .p-meta a:hover { color: var(--ink-strong); }
+  .stock-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--success-bg); color: var(--success); font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; margin-bottom: 22px; }
+  .stock-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+  .quick-specs { border-top: 1px solid var(--border); padding-top: 18px; }
+  .quick-specs .qs-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 14px; border-bottom: 1px dashed var(--border); }
+  .quick-specs .qs-row span:first-child { color: var(--text-muted); }
+  .quick-specs .qs-row span:last-child { font-weight: 600; }
+
+  /* Buy box */
+  .buy-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; height: fit-content; position: sticky; top: 92px; }
+  .price-block { margin-bottom: 16px; }
+  .price-now-lg { font-family: 'Unbounded', sans-serif; font-size: 30px; font-weight: 700; color: var(--ink-strong); letter-spacing: -0.5px; }
+  .price-old-lg { font-size: 15px; color: var(--text-muted); text-decoration: line-through; margin-left: 8px; white-space: nowrap; display: inline-block; }
+  .price-save { font-size: 12.5px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+
+  .installment-note { display: flex; align-items: center; gap: 8px; background: var(--bg-soft); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; color: var(--ink); margin-bottom: 18px; }
+
+  .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .qty-control { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; }
+  .qty-control button { width: 34px; height: 34px; background: none; border: none; font-size: 16px; color: var(--ink); }
+  .qty-control span { width: 30px; text-align: center; font-weight: 600; font-size: 14px; }
+
+  .btn-primary-lg { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--accent); color: #fff; border: none; font-weight: 700; font-size: 15px; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+  .btn-primary-lg:hover { background: var(--accent-dark); }
+  .btn-secondary-lg { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; color: var(--ink-strong); border: 1.5px solid var(--border); font-weight: 700; font-size: 14.5px; padding: 13px; border-radius: 10px; margin-bottom: 20px; }
+  .btn-secondary-lg:hover { border-color: var(--ink-strong); }
+
+  .delivery-info { display: flex; gap: 12px; padding: 14px 0; border-top: 1px solid var(--border); }
+  .delivery-info:first-of-type { border-top: none; padding-top: 0; }
+  .delivery-info .d-icon { flex-shrink: 0; width: 34px; height: 34px; border-radius: 8px; background: var(--bg-soft); display: flex; align-items: center; justify-content: center; }
+  .delivery-info .d-title { font-size: 13.5px; font-weight: 700; }
+  .delivery-info .d-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== Tabs / sections ===== */
+  .section { padding: 0 0 48px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+  .section-head h2 { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+  .section-head a { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+  .description-text { max-width: 760px; }
+  .description-text p { font-size: 14.5px; line-height: 1.75; color: var(--ink); margin-bottom: 14px; }
+  .description-text p:last-child { margin-bottom: 0; }
+  .description-text h4 { font-family: 'Unbounded', sans-serif; font-size: 15px; font-weight: 600; margin: 20px 0 8px; }
+  .description-text h4:first-child { margin-top: 0; }
+  .desc-image {
+    width: 100%; aspect-ratio: 16/9; background: var(--bg-soft); border-radius: var(--radius);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    margin: 18px 0; color: var(--text-muted); overflow: hidden;
+  }
+  .desc-image img { width: 100%; height: 100%; object-fit: cover; }
+  .desc-image span { font-size: 12px; }
+
+  .specs-table { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .specs-group-title { background: var(--bg-soft); padding: 12px 20px; font-weight: 700; font-size: 14px; }
+  .specs-row { display: flex; padding: 13px 20px; border-top: 1px solid var(--border); font-size: 14px; }
+  .specs-row .s-label { width: 260px; color: var(--text-muted); flex-shrink: 0; }
+  .specs-row .s-value { font-weight: 600; }
+
+  /* Reviews */
+  .reviews-summary { display: flex; gap: 40px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 24px; }
+  .rs-score { text-align: center; flex-shrink: 0; }
+  .rs-score .num { font-family: 'Unbounded', sans-serif; font-size: 40px; font-weight: 700; }
+  .rs-score .stars { color: #F5A524; font-size: 16px; margin: 4px 0; }
+  .rs-score .count { font-size: 12.5px; color: var(--text-muted); }
+  .rs-bars { flex: 1; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+  .rs-bar-row { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-muted); }
+  .rs-bar-track { flex: 1; height: 6px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+  .rs-bar-fill { height: 100%; background: #F5A524; }
+
+  .review-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px; }
+  .review-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .review-author { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+  .review-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-soft); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .review-date { font-size: 12px; color: var(--text-muted); }
+  .review-stars { color: #F5A524; font-size: 13px; margin-bottom: 8px; }
+  .review-text { font-size: 14px; line-height: 1.6; color: var(--ink); }
+
+  /* Related products */
+  .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .product-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .product-card:hover { border-color: var(--ink); }
+  .product-thumb { background: var(--bg-soft); aspect-ratio: 1/0.9; display: flex; align-items: center; justify-content: center; }
+  .product-info { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .product-title { font-size: 13.5px; font-weight: 600; line-height: 1.4; min-height: 37px; }
+  .rating { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--text-muted); }
+  .rating .stars { color: #F5A524; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+  .price-now { font-size: 17px; font-weight: 800; }
+
+  footer { background: var(--ink-strong); color: #D4D4D8; padding: 48px 0 24px; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; padding-bottom: 32px; border-bottom: 1px solid #52525B; }
+  .footer-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+  .footer-col ul li { margin-bottom: 10px; font-size: 13.5px; }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 20px; font-size: 13px; color: #A1A1AA; }
+
+  @media (max-width: 1320px) {
+    .product-main { grid-template-columns: 1fr; }
+    .buy-box { position: static; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews-summary { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-links"><a href="#">Доставка по всем регионам</a></div>
+    <div class="topbar-links"><a href="#">Поддержка</a></div>
+  </div>
+</div>
+
+<header class="main">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <svg width="34" height="34" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#3F3F46" stroke-width="20"/>
+        <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+      </svg>
+      <span class="logo-word">OI<span>ZON</span></span>
+    </a>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Ищите ноутбуки, принтеры, гаджеты и картриджи" value="мфу laserjet 420">
+      <button aria-label="Найти">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <a href="#" class="action-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        Избранное
+      </a>
+      <a href="cart.html" class="action-item">
+        <div class="icon-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.3" fill="#3F3F46"/><circle cx="17" cy="20" r="1.3" fill="#3F3F46"/></svg>
+          <span class="cart-count">3</span>
+        </div>
+        Корзина
+      </a>
+      <a href="#" class="action-item" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="#3F3F46" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="#" class="action-item" aria-label="WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M3.5 20.5 4.7 16A8 8 0 1 1 8 19.3z"/><path d="M8.5 9.3c0 3.5 2.7 6.2 6.2 6.2 0.6 0 0.9-0.3 0.9-0.9v-1.1c0-0.4-0.3-0.7-0.7-0.8l-1.5-0.3c-0.3-0.1-0.6 0-0.8 0.2l-0.4 0.4c-1.1-0.5-1.9-1.3-2.4-2.4l0.4-0.4c0.2-0.2 0.3-0.5 0.2-0.8L10.1 8c-0.1-0.4-0.4-0.7-0.8-0.7H8.2c-0.6 0-0.9 0.4-0.9 0.9 0 0.4 0.1 0.7 0.2 1.1z" fill="#3F3F46" stroke="none"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav class="cat-nav">
+  <div class="container">
+    <a href="index.html" class="cat-pill all">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      Все категории
+    </a>
+    <a href="catalog.html" class="cat-pill">Ноутбуки</a>
+    <a href="catalog-printer.html" class="cat-pill active">Принтеры</a>
+    <a href="catalog-cartridge.html" class="cat-pill">Расходники для принтеров</a>
+    <a href="catalog-gadget.html" class="cat-pill">Гаджеты</a>
+    <a href="catalog-accessory.html" class="cat-pill">Аксессуары</a>
+    <a href="catalog-sale.html" class="cat-pill">Акции</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <div class="breadcrumbs">
+    <a href="index.html">Главная</a><span class="sep">/</span>
+    <a href="catalog-printer.html">Принтеры</a><span class="sep">/</span>
+    <span>LaserJet 420, Wi-Fi, дуплекс</span>
+  </div>
+
+  <div class="product-main">
+
+    <!-- Gallery -->
+    <div class="gallery-main">
+      <div class="gallery-stage" onclick="document.getElementById('lightbox').classList.add('open')">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#C4C4C9" stroke-width="1.1"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+        <span class="zoom-hint" aria-label="Увеличить фото">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </span>
+      </div>
+      <div class="gallery-thumbs">
+        <div class="thumb active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.5"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg></div>
+        <div class="thumb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.5"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg></div>
+        <div class="thumb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.5"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg></div>
+        <div class="thumb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.5"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg></div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="p-info">
+      <h1 class="p-title">МФУ лазерное LaserJet 420, Wi-Fi, дуплекс</h1>
+      <div class="p-meta">
+        <span class="rating"><span class="stars">★★★★★</span> 4.6</span>
+        <a href="#reviews">98 отзывов</a>
+        <span>Артикул: PR-10032</span>
+      </div>
+      <span class="stock-badge"><span class="dot"></span>В наличии — 9 шт.</span>
+
+      <div class="quick-specs">
+        <div class="qs-row"><span>Тип печати</span><span>Лазерная, чёрно-белая</span></div>
+        <div class="qs-row"><span>Функции</span><span>Печать, сканирование, копирование</span></div>
+        <div class="qs-row"><span>Скорость печати</span><span>22 стр/мин</span></div>
+        <div class="qs-row"><span>Подключение</span><span>Wi-Fi, USB</span></div>
+        <div class="qs-row"><span>Двусторонняя печать</span><span>Есть (авто-дуплекс)</span></div>
+      </div>
+    </div>
+
+    <!-- Buy box -->
+    <div class="buy-box">
+      <div class="price-block">
+        <span class="price-now-lg">18 450 с</span>
+      </div>
+
+      <div class="installment-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+        Рассрочка от 3 до 12 месяцев — от 1 538 с/мес
+      </div>
+
+      <div class="qty-row">
+        <div class="qty-control">
+          <button aria-label="Уменьшить">−</button>
+          <span>1</span>
+          <button aria-label="Увеличить">+</button>
+        </div>
+      </div>
+
+      <button class="btn-primary-lg" onclick="window.location='cart.html'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/></svg>
+        В корзину
+      </button>
+      <button class="btn-secondary-lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        В избранное
+      </button>
+
+      <div class="delivery-info">
+        <div class="d-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div>
+        <div><div class="d-title">Доставка по всему Кыргызстану</div></div>
+      </div>
+      <div class="delivery-info">
+        <div class="d-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5z"/></svg></div>
+        <div><div class="d-title">Официальная гарантия 12 мес.</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>Описание</h2></div>
+    <div class="description-text">
+      <h4>Три устройства в одном</h4>
+      <p>LaserJet 420 — компактное МФУ 3 в 1 для дома и небольшого офиса: печатает, сканирует и копирует документы. Лазерная печать даёт чёткий текст без размытия, а скорость 22 страницы в минуту позволяет не ждать, пока распечатается пачка документов.</p>
+
+      <div class="desc-image">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+        <span>Фото: общий вид устройства</span>
+      </div>
+
+      <h4>Подключение без проводов</h4>
+      <p>Подключается по Wi-Fi — можно печатать прямо со смартфона или ноутбука без проводов, а также по USB для прямого подключения. Автоматическая двусторонняя печать экономит бумагу при больших документах.</p>
+
+      <div class="desc-image">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+        <span>Фото: панель управления / порты подключения</span>
+      </div>
+
+      <h4>Комплектация</h4>
+      <p>В комплекте — стартовый картридж, которого хватает примерно на 1200 страниц, USB-кабель и гарантийный талон. Совместимые расходники для дозаправки и замены есть в нашем разделе "Расходники для принтеров".</p>
+
+      <div class="desc-image">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+        <span>Фото: комплект поставки</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>Характеристики</h2></div>
+    <div class="specs-table">
+      <div class="specs-group-title">Печать</div>
+      <div class="specs-row"><span class="s-label">Тип печати</span><span class="s-value">Лазерная, чёрно-белая</span></div>
+      <div class="specs-row"><span class="s-label">Скорость печати</span><span class="s-value">22 стр/мин (А4)</span></div>
+      <div class="specs-row"><span class="s-label">Разрешение печати</span><span class="s-value">1200×1200 dpi</span></div>
+      <div class="specs-row"><span class="s-label">Двусторонняя печать</span><span class="s-value">Автоматическая</span></div>
+      <div class="specs-row"><span class="s-label">Формат бумаги</span><span class="s-value">A4, A5, конверты</span></div>
+      <div class="specs-group-title">Функции и подключение</div>
+      <div class="specs-row"><span class="s-label">Функции</span><span class="s-value">Печать, сканирование, копирование</span></div>
+      <div class="specs-row"><span class="s-label">Подключение</span><span class="s-value">Wi-Fi, USB 2.0</span></div>
+      <div class="specs-row"><span class="s-label">Лоток подачи</span><span class="s-value">150 листов</span></div>
+      <div class="specs-row"><span class="s-label">Вес</span><span class="s-value">6.4 кг</span></div>
+      <div class="specs-group-title">Комплектация и гарантия</div>
+      <div class="specs-row"><span class="s-label">В комплекте</span><span class="s-value">Стартовый картридж (~1200 стр.), USB-кабель, гарантийный талон</span></div>
+      <div class="specs-row"><span class="s-label">Гарантия</span><span class="s-value">12 месяцев на заводской брак и сервис</span></div>
+    </div>
+  </div>
+
+  <div class="section" id="reviews">
+    <div class="section-head"><h2>Отзывы покупателей</h2><a href="#">Оставить отзыв</a></div>
+
+    <div class="reviews-summary">
+      <div class="rs-score">
+        <div class="num">4.6</div>
+        <div class="stars">★★★★★</div>
+        <div class="count">98 отзывов</div>
+      </div>
+      <div class="rs-bars">
+        <div class="rs-bar-row"><span>5</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:68%;"></div></div><span>67</span></div>
+        <div class="rs-bar-row"><span>4</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:20%;"></div></div><span>20</span></div>
+        <div class="rs-bar-row"><span>3</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:8%;"></div></div><span>8</span></div>
+        <div class="rs-bar-row"><span>2</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:3%;"></div></div><span>2</span></div>
+        <div class="rs-bar-row"><span>1</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:1%;"></div></div><span>1</span></div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-head">
+        <div class="review-author"><div class="review-avatar">Б</div>Бекзат У.</div>
+        <div class="review-date">1 неделю назад</div>
+      </div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Настроил Wi-Fi за пару минут, печатает быстро и без полос. Для дома и небольшой распечатки документов — отличный вариант, картриджа хватает надолго.</p>
+    </div>
+    <div class="review-card">
+      <div class="review-head">
+        <div class="review-author"><div class="review-avatar">С</div>Салтанат Ж.</div>
+        <div class="review-date">3 недели назад</div>
+      </div>
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Сканер работает нормально, но чуть медленнее, чем хотелось бы. В остальном всё устраивает — компактный, тихий, легко подключить со смартфона.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>С этим товаром покупают</h2></div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-thumb"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><path d="M9 3h6l1 4h-8z"/><rect x="7" y="7" width="10" height="12" rx="1.5"/></svg></div>
+        <div class="product-info">
+          <div class="product-title">Картридж лазерный CF283A, чёрный, оригинал</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.9 (521)</div>
+          <div class="price-row"><span class="price-now">2 190 с</span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="5" y="4" width="14" height="17" rx="1.5"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <div class="product-info">
+          <div class="product-title">Бумага офисная А4, 500 листов, класс "C"</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.8 (312)</div>
+          <div class="price-row"><span class="price-now">450 с</span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><rect x="4" y="8" width="16" height="10" rx="1.5"/><line x1="8" y1="8" x2="8" y2="5"/><line x1="16" y1="8" x2="16" y2="5"/></svg></div>
+        <div class="product-info">
+          <div class="product-title">USB-кабель для принтера, 1.8 м</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.7 (94)</div>
+          <div class="price-row"><span class="price-now">290 с</span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.3"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+        <div class="product-info">
+          <div class="product-title">Сетевой фильтр-удлинитель, 5 розеток</div>
+          <div class="rating"><span class="stars">★★★★★</span> 4.6 (58)</div>
+          <div class="price-row"><span class="price-now">590 с</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+    <button class="lightbox-close" aria-label="Закрыть" onclick="document.getElementById('lightbox').classList.remove('open')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <div class="lightbox-stage">
+      <svg width="320" height="320" viewBox="0 0 24 24" fill="none" stroke="#C4C4C9" stroke-width="0.9"><rect x="4" y="9" width="16" height="7" rx="1"/><path d="M6 9V5h12v4"/><path d="M7 16v4h10v-4"/></svg>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo" style="margin-bottom:14px;">
+          <svg width="28" height="28" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#D4D4D8" stroke-width="20"/>
+            <rect x="129.4" y="129.4" width="26" height="26" rx="7" fill="#FF5A1F"/>
+          </svg>
+          <span class="logo-word" style="color:#fff;">OI<span>ZON</span></span>
+        </a>
+        <p style="font-size:13.5px; line-height:1.6; max-width:280px;">Маркетплейс техники и электроники в Кыргызстане. Ноутбуки, принтеры, гаджеты и всё для них — в одном месте.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Покупателям</h4>
+        <ul>
+          <li><a href="#">Как сделать заказ</a></li>
+          <li><a href="#">Доставка и оплата</a></li>
+          <li><a href="#">Гарантия</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Скупка</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Связаться</h4>
+        <ul>
+          <li><a href="#">+996 700 000 000</a></li>
+          <li><a href="#">support@oizon.kg</a></li>
+          <li><a href="#">г. Бишкек, ул. Примерная 1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OIZON. Все права защищены.</span>
+      <span>Кыргызстан</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
